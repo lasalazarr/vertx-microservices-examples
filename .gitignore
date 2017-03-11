@@ -1,0 +1,39 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+# others
+target/
+activemq-data/
+*.log
+*.log.*
+*.ipr
+*.iws
+*.iml
+*.launch
+*.versionsBackup
+out
+.project
+.classpath
+.settings
+.metadata
+.idea
+.idea*
+.DS_Store
+dependency-reduced-pom.xml
+junit*.properties
+projectFilesBackup
+target
+.externalToolBuilders
+maven-eclipse.xml
+
+configuration/configuration.iml
+configuration/cassandra-configuration/cassandra-configuration.iml
