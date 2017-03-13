@@ -1,6 +1,8 @@
 package io.vertx;
 
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
@@ -8,6 +10,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+
 /**
  * Created by alberto on 3/11/17.
  */
@@ -16,10 +22,21 @@ public class SimpleHttpVerticalTest {
 
     private Vertx vertx;
 
+    private int port = 8081;
+
     @Before
-    public void setUp(TestContext context) {
+    public void setUp(TestContext context) throws IOException {
         vertx = Vertx.vertx();
-        vertx.deployVerticle(SimpleHttpVertical.class.getName(),
+
+        ServerSocket socket = new ServerSocket(0);
+        port = socket.getLocalPort();
+        socket.close();
+
+        DeploymentOptions options = new DeploymentOptions()
+                .setConfig(new JsonObject().put("http.port", port)
+                );
+
+        vertx.deployVerticle(SimpleHttpVertical.class.getName(), options,
                 context.asyncAssertSuccess());
     }
 
@@ -32,12 +49,11 @@ public class SimpleHttpVerticalTest {
     public void testMyApplication(TestContext context) {
         final Async async = context.async();
 
-        vertx.createHttpClient().getNow(8080, "localhost", "/",
-                response -> {
-                    response.handler(body -> {
-                        context.assertTrue(body.toString().contains("Hello"));
-                        async.complete();
-                    });
-                });
+        vertx.createHttpClient().getNow(port, "localhost", "/", response -> {
+            response.handler(body -> {
+                context.assertTrue(body.toString().contains("Hello"));
+                async.complete();
+            });
+        });
     }
 }
