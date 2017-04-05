@@ -24,7 +24,7 @@ public class SimpleHttpVerticalTest {
 
     private Vertx vertx;
 
-    private int port = 8081;
+    private int port = 8082;
 
     @Before
     public void setUp(TestContext context) throws IOException {

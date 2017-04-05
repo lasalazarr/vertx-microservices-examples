@@ -19,7 +19,7 @@ public class RestIntegrationTest {
     @BeforeClass
     public static void configureRestAssured() {
         RestAssured.baseURI = "http://localhost";
-        RestAssured.port = Integer.getInteger("http.port", 8080);
+        RestAssured.port = Integer.getInteger("http.port", 8082);
     }
 
     @AfterClass
